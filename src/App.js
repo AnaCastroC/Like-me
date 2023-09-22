@@ -1,14 +1,13 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Form from "./components/Form";
 import Post from "./components/Post";
-import { useState } from "react";
-import axios from "axios";
-import { useEffect } from "react";
 
 const urlBaseServer = "http://localhost:5000";
 
 function App() {
   const [titulo, setTitulo] = useState("");
-  const [imgSrc, setImgSRC] = useState("");
+  const [imagen, setImagen] = useState(null);
   const [descripcion, setDescripcion] = useState("");
   const [posts, setPosts] = useState([]);
 
@@ -18,9 +17,21 @@ function App() {
   };
 
   const agregarPost = async () => {
-    const post = { titulo: titulo, url: imgSrc, descripcion: descripcion };
-    await axios.post(urlBaseServer + "/posts", post);
-    getPosts();
+    const formData = new FormData();
+    formData.append("titulo", titulo);
+    formData.append("img", imagen);
+    formData.append("descripcion", descripcion);
+
+    try {
+      await axios.post(urlBaseServer + "/posts", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      getPosts();
+    } catch (error) {
+      console.error("Error al agregar el post:", error);
+    }
   };
 
   const like = async (id) => {
@@ -44,14 +55,20 @@ function App() {
         <div className="col-12 col-sm-4">
           <Form
             setTitulo={setTitulo}
-            setImgSRC={setImgSRC}
+            setImagen={setImagen}
             setDescripcion={setDescripcion}
             agregarPost={agregarPost}
           />
         </div>
         <div className="col-12 col-sm-8 px-5 row posts align-items-start">
           {posts.map((post, i) => (
-            <Post key={i} post={post} like={like} eliminarPost={eliminarPost} />
+            <Post
+              key={i}
+              post={post}
+              like={like}
+              eliminarPost={eliminarPost}
+              urlBaseServer={urlBaseServer}
+            />
           ))}
         </div>
       </div>
