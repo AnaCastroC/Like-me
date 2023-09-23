@@ -27,7 +27,7 @@ function Form({ setTitulo, setImagen, setDescripcion, agregarPost }) {
         ></textarea>
       </div>
       <div className="d-flex">
-        <button onClick={agregarPost} className="btn btn-light m-auto">
+        <button onClick={agregarPost} className="btn btn-warning m-auto">
           Agregar
         </button>
       </div>
