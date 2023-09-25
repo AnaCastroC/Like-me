@@ -1,7 +1,6 @@
 import React from "react";
 
-function Post({
-  post: { id, titulo, url, descripcion, likes }, like, eliminarPost, urlBaseServer}){
+function Post({post: { id, titulo, url, descripcion, likes }, like, eliminarPost, urlBaseServer}){
   // variable para construir la url de la imagen  
   const imageUrl = `${urlBaseServer}/${url}`; 
   

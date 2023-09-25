@@ -14,13 +14,7 @@ app.use('/uploads', express.static('uploads'));
 
 app.listen(port, () => console.log(`Servidor escuchando en el puerto ${port}`));
 
-pool.connect((error) => {
-  if (error) {
-    console.error('Error de conexión a la base de datos:', error);
-  } else {    
-    console.log('Conexión exitosa a la base de datos');
-  }
-});
+
 
 // Configuración de multer para cargar la imagen
 const storage = multer.diskStorage({
@@ -40,6 +34,14 @@ const pool = new Pool({
   database: 'postgres',
   password: 'password',
   port: 5432
+});
+
+pool.connect((error) => {
+  if (error) {
+    console.error('Error de conexión a la base de datos:', error);
+  } else {    
+    console.log('Conexión exitosa a la base de datos');
+  }
 });
 
 app.get('/posts', async (req, res) => {
