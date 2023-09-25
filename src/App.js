@@ -11,17 +11,18 @@ function App() {
   const [descripcion, setDescripcion] = useState("");
   const [posts, setPosts] = useState([]);
 
+  // función para obtener los posts con método get
   const getPosts = async () => {
     const { data: posts } = await axios.get(urlBaseServer + "/posts");
-    setPosts([...posts]);
+    setPosts([...posts]); // abrimos el arreglo de posts y lo pasamos como argumento al estado
   };
 
+  // función para agregar un post con método post
   const agregarPost = async () => {
-    const formData = new FormData();
-    formData.append("titulo", titulo);
+    const formData = new FormData(); // FormData es una clase de JS que permite crear un objeto de tipo formulario
+    formData.append("titulo", titulo); // append: agrega un nuevo valor al formulario
     formData.append("img", imagen);
     formData.append("descripcion", descripcion);
-
     try {
       await axios.post(urlBaseServer + "/posts", formData, {
         headers: {
@@ -34,18 +35,19 @@ function App() {
     }
   };
 
-  const like = async (id) => {
+  // función para dar like a un post con método put
+  const like = async (id) => { // id viene del componente Post como argumento de post.like
     await axios.put(urlBaseServer + `/posts/like/${id}`);
     getPosts();
   };
 
+  // función para eliminar un post con método delete
   const eliminarPost = async (id) => {
     await axios.delete(urlBaseServer + `/posts/${id}`);
     getPosts();
   };
-
-  useEffect(() => {
-    getPosts();
+  useEffect(() => { // useEffect se ejecuta cuando el componente se monta
+    getPosts(); // llamamos a la función getPosts
   }, []);
 
   return (
@@ -64,7 +66,7 @@ function App() {
           {posts.map((post, i) => (
             <Post
               key={i}
-              post={post}
+              post={post} // a través del prop post accedemos a id, titulo, url, descripcion, likes
               like={like}
               eliminarPost={eliminarPost}
               urlBaseServer={urlBaseServer}

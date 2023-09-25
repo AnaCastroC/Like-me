@@ -12,11 +12,11 @@ function Form({ setTitulo, setImagen, setDescripcion, agregarPost }) {
       <div className="mb-2">
         <label>URL de la imagen</label>
         <input
-          onChange={(event) => setImagen(event.target.files[0])}
+          onChange={(event) => setImagen(event.target.files[0])} // files[0] porque es un array y necesitamos el primer elemento
           className="form-control"
           name = "img"
           type="file"
-          accept="image/*" // Acepta cualquier tipo de imagen
+          accept="image/*" 
         />
       </div>
       <div className="mb-3">

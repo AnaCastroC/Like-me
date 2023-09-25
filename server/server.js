@@ -2,17 +2,27 @@ const express = require('express');
 const cors = require('cors'); 
 const multer = require('multer');
 const fs = require('fs');
+const { Pool } = require('pg');
 
 const app = express();
-app.use(express.json());
 const port = 5000;
 
-app.listen(port, () => console.log(`Servidor escuchando en el puerto ${port}`));
+// middlewares
+app.use(express.json());
 app.use(cors());
 app.use('/uploads', express.static('uploads'));
 
-const { Pool } = require('pg');
+app.listen(port, () => console.log(`Servidor escuchando en el puerto ${port}`));
 
+pool.connect((error) => {
+  if (error) {
+    console.error('Error de conexión a la base de datos:', error);
+  } else {    
+    console.log('Conexión exitosa a la base de datos');
+  }
+});
+
+// Configuración de multer para cargar la imagen
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/');
@@ -21,23 +31,15 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + '_' + file.originalname);
   }
 });
-
 const upload = multer({ storage: storage }).single('img');
 
+// Configuración de la base de datos
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'postgres',
-  password: 'Calila00123',
+  password: 'password',
   port: 5432
-});
-
-pool.connect((error) => {
-  if (error) {
-    console.error('Error de conexión a la base de datos:', error);
-  } else {    
-    console.log('Conexión exitosa a la base de datos');
-  }
 });
 
 app.get('/posts', async (req, res) => {

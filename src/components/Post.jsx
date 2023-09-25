@@ -1,14 +1,11 @@
 import React from "react";
 
 function Post({
-  post,
-  post: { id, titulo, url, descripcion, likes },
-  like,
-  eliminarPost,
-  urlBaseServer,
-}) {
-  const imageUrl = `${urlBaseServer}/${url}`; // Construye la URL completa de la imagen
-
+  post: { id, titulo, url, descripcion, likes }, like, eliminarPost, urlBaseServer}){
+  // variable para construir la url de la imagen  
+  const imageUrl = `${urlBaseServer}/${url}`; 
+  
+  // variable para el icono de like
   const likeIcon = (
     <img
       src="https://icongr.am/fontawesome/heart.svg?size=20&color=currentColor"
